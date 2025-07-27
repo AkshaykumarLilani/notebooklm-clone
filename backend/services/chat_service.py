@@ -1,14 +1,15 @@
 import openai
 import chromadb
-
-# Initialize clients
-chroma_client = chromadb.PersistentClient(path="chroma_db")
-collection = chroma_client.get_or_create_collection(name="pdf_collection")
+from services.constants import CHROMA_DB_PATH, PDF_COLLECTION_NAME
 
 def get_chat_response(question: str, pdf_id: str):
     """
     Takes a user question, finds relevant context from the DB, and generates a response.
     """
+    
+    chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+    pdf_collection = chroma_client.get_or_create_collection(name=PDF_COLLECTION_NAME)
+    
     try:
         try:
             collection = chroma_client.get_collection(name=pdf_id)

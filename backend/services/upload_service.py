@@ -2,18 +2,19 @@ import fitz
 import openai
 import chromadb
 import uuid
-
-# Initialize clients
-chroma_client = chromadb.PersistentClient(path="chroma_db")
-collection = chroma_client.get_or_create_collection(name="pdf_collection")
+from services.constants import CHROMA_DB_PATH, PDF_COLLECTION_NAME
 
 def process_and_index_pdf(pdf_stream):
     """
     Reads a PDF from a byte stream, processes it, and indexes it in ChromaDB.
     """
     try:
+        chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+        pdf_collection = chroma_client.get_or_create_collection(name=PDF_COLLECTION_NAME) # This is the main collection for metadata
+        
         pdf_id = str(uuid.uuid4())
-        collection = chroma_client.create_collection(name=pdf_id)
+        # Use get_or_create_collection for the PDF-specific collection to handle concurrency
+        collection = chroma_client.get_or_create_collection(name=pdf_id)
         
         pdf_document = fitz.open(stream=pdf_stream, filetype="pdf")
         
