@@ -22,7 +22,6 @@ Before you begin, ensure you have the following installed:
 
 - **Python 3.12+** (for the backend)
 - **Node.js 20+** and **npm** (for the frontend)
-- **Git** (for cloning the repository)
 
 ## Backend Setup
 
