@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NotebookLM Clone
 
-## Getting Started
+This project is a clone of Google's NotebookLM, designed to help users interact with their documents using AI. It consists of a Python Flask backend and a Next.js frontend.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Document Upload:** Upload PDF documents for processing.
+- **AI Chat:** Ask questions and get answers based on the content of your uploaded PDFs.
+- **Citations:** Get citations from the source documents for the AI-generated answers.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Vector Database:** Chroma DB
+- **Embeddings:** OpenAI `text-embedding-ada-002`
+- **Language Model:** OpenAI `gpt-3.5-turbo` (for chat completion)
 
-## Learn More
+## Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+Before you begin, ensure you have the following installed:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Python 3.12+** (for the backend)
+- **Node.js 20+** and **npm** (for the frontend)
+- **Git** (for cloning the repository)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Backend Setup
 
-## Deploy on Vercel
+1. **Navigate to the backend directory:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   cd backend
+   ```
+2. **Create and activate a virtual environment (recommended):**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. **Install dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. **Environment Variables:**
+
+   Create a `.env` file in the `backend/` directory based on `.env.sample`:
+
+   ```env
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
+
+   - `OPENAI_API_KEY`: Your API key from OpenAI. This is crucial for the AI functionalities.
+5. **Run the Backend Server:**
+
+   ```bash
+   gunicorn --worker-class gevent --workers 1 --bind 0.0.0.0:5000 app:app
+   # Or for development with Flask's built-in server:
+   # flask run --port 5000
+   ```
+
+   The backend server should now be running at `http://localhost:5000` (or your specified port).
+
+## Frontend Setup
+
+1. **Navigate to the frontend directory:**
+
+   ```bash
+   cd frontend
+   ```
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+3. **Environment Variables:**
+
+   Create a `.env` file in the `frontend/` directory based on `.env.sample`:
+
+   ```env
+   NEXT_PUBLIC_API_URL="http://0.0.0.0:5000"
+   ```
+
+   - `NEXT_PUBLIC_API_URL`: The URL of your backend server. Make sure this matches the `PORT` you set for the backend.
+4. **Run the Frontend Development Server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   The frontend application should now be accessible at `http://localhost:3000` (or another port if 3000 is in use).
+
+## Usage
+
+1. Ensure both the backend and frontend servers are running.
+2. Open your web browser and navigate to `http://localhost:3000`.
+3. Upload a PDF document using the provided interface.
+4. Once the document is processed, you can start asking questions related to its content.
+
+## Docker Setup
+
+You can also run the application using Docker.
+
+1. **Build Docker Images:**
+
+   From the project root directory, run:
+
+   ```bash
+   docker build -t notebooklm-backend ./backend
+   docker build -t notebooklm-frontend ./frontend
+   ```
+2. **Run Docker Containers:**
+
+   Ensure you have your `.env` files configured in both `backend/` and `frontend/` directories as described above.
+
+   ```bash
+   docker run -d -p 8001:8001 --name notebooklm-backend notebooklm-backend
+   docker run -d -p 3000:3000 --name notebooklm-frontend notebooklm-frontend
+   ```
+   The backend will be accessible at `http://localhost:8001` and the frontend at `http://localhost:3000`.
