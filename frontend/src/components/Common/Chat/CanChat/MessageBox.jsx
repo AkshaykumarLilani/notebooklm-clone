@@ -33,7 +33,7 @@ const MessageBox = () => {
                     disabled={responseLoading}
                 />
                 <Button
-                    className="rounded-full flex items-center justify-center"
+                    className="rounded-full flex items-center justify-center bg-muted-foreground"
                     type="submit"
                     variant="primary"
                     onClick={onQuerySubmit}

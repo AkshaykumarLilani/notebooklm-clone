@@ -3,7 +3,7 @@
 import axios from "axios";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { AIMessage, UserMessage } from "../chat_history_utils";
+import { AIMessage, scrollAiAnswerIdIntoView, UserMessage } from "../chat_history_utils";
 import { useUploadContext } from "./upload_context";
 
 
@@ -87,6 +87,7 @@ export const ChatContextProvider = ({ children }) => {
     }, []);
 
     const sendUserQuery = useCallback(async (ai_answer_id) => {
+        scrollAiAnswerIdIntoView(ai_answer_id);
         let question = currentUserQuery;
         try {
             setCurrentUserQuery("");
@@ -116,7 +117,7 @@ export const ChatContextProvider = ({ children }) => {
                 return history;
             });
 
-            setTimeout(() => sendUserQuery(aiMessageObject.id), 100)
+            setTimeout(() => sendUserQuery(aiMessageObject.id), 100);
         } catch (error) {
             console.error(error);
             toast.error("Something went wrong");

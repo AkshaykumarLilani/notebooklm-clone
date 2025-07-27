@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
-import { useChatContext } from '@/lib/context/chat_context'
 import { Sparkle } from 'lucide-react';
 import Citation from './Citation';
+import { scrollAiAnswerIdIntoView } from '@/lib/chat_history_utils';
 
 const AIMessageView = ({ data: { error, loading, citations, sources, message, id } }) => {
 
-    const { responseLoading, sendUserQuery } = useChatContext();
+    useEffect(() => {
+        if (id) {
+            scrollAiAnswerIdIntoView(id)
+        }
+    }, [id]);
 
     return (
-        <div className="flex justify-start mb-2 fade-in">
+        <div id={id} className="flex justify-start mb-2 fade-in">
             <Card className="self-start mr-auto max-w-[70%] py-0">
                 <CardContent className="p-4">
-                    {(responseLoading || loading) ?
+                    {(loading) ?
                         <div className='flex gap-3 items-center'>
                             <Sparkle className='animate-pulse w-3 h-3 text-foreground' />
                             Thinking ...

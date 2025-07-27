@@ -46,3 +46,12 @@ export class AIMessage {
         }
     }
 }
+
+export const scrollAiAnswerIdIntoView = (ai_answer_id) => {
+    if (ai_answer_id) {
+        const documentEl = document.getElementById(ai_answer_id);
+        if (documentEl) {
+            documentEl.scrollIntoView({ behavior: "smooth", inline: "start", block: "start" })
+        }
+    }
+}
