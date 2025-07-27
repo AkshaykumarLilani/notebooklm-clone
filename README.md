@@ -113,7 +113,7 @@ You can also run the application using Docker.
    Ensure you have your `.env` files configured in both `backend/` and `frontend/` directories as described above.
 
    ```bash
-   docker run -d -p 8001:8001 --name notebooklm-backend notebooklm-backend
+   docker run -d -p 5000:5000 --name notebooklm-backend notebooklm-backend
    docker run -d -p 3000:3000 --name notebooklm-frontend notebooklm-frontend
    ```
-   The backend will be accessible at `http://localhost:8001` and the frontend at `http://localhost:3000`.
+   The backend will be accessible at `http://localhost:5000` and the frontend at `http://localhost:3000`.
