@@ -8,9 +8,9 @@ import ChatHistory from './ChatHistory';
 const CanChat = () => {
 
     return (
-        <div className='h-full relative flex flex-col items-stretch justify-between'>
-            <ChatHistory />
-            <MessageBox />
+        <div className='h-full w-full relative flex flex-col overflow-hidden p-1 md:p-3'>
+            <ChatHistory className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden mb-3 p-2" />
+            <MessageBox className="w-full" />
         </div>
     )
 }

@@ -43,15 +43,15 @@ const Main = ({ className }) => {
                     style={sliderStyle}
                 />
             </div>
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-hidden flex items-stretch">
                 <div
-                    className="flex w-full h-full transition-transform ease-in-out duration-500"
+                    className="flex items-stretch w-full transition-transform ease-in-out duration-500"
                     style={{ transform: `translateX(-${activeTab * 100}%)` }}
                 >
-                    <div className="w-full flex-shrink-0 h-full flex justify-center items-center">
+                    <div className="w-full flex-shrink-0 ">
                         <Upload isCollapsed={false} />
                     </div>
-                    <div className="w-full flex-shrink-0 h-full flex justify-center items-center">
+                    <div className="w-full flex-shrink-0 ">
                         <Chat />
                     </div>
                 </div>

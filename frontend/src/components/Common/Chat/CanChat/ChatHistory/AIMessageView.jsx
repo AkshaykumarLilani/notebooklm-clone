@@ -14,7 +14,7 @@ const AIMessageView = ({ data: { error, loading, citations, sources, message, id
 
     return (
         <div id={id} className="flex justify-start mb-2 fade-in">
-            <Card className="self-start mr-auto max-w-[70%] py-0">
+            <Card className="self-start mr-auto max-w-[85%] py-0">
                 <CardContent className="p-4">
                     {(loading) ?
                         <div className='flex gap-3 items-center'>

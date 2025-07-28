@@ -5,18 +5,19 @@ import { useChatContext } from '@/lib/context/chat_context';
 import React, { useEffect, useRef } from 'react'
 import UserMessageView from './UserMessageView';
 import AIMessageView from './AIMessageView';
+import { cn } from '@/lib/utils';
 
-const ChatHistory = () => {
+const ChatHistory = ({ className }) => {
 
     const chatHistoryContainerRef = useRef(null);
     const { chatHistory } = useChatContext();
 
-    useEffect(()=>{
+    useEffect(() => {
         chatHistoryContainerRef.current?.scrollTo?.(chatHistoryContainerRef.current.clientHeight, chatHistoryContainerRef.current.clientHeight);
     }, [chatHistory]);
 
     if (Array.isArray(chatHistory) && chatHistory.length > 0) {
-        return <div ref={chatHistoryContainerRef} className='flex max-h-[65vh] flex-col overflow-auto pb-5'>
+        return <div ref={chatHistoryContainerRef} className={cn(className)}>
             {
                 chatHistory.map((chat, index) => {
                     if (chat instanceof UserMessage) {
@@ -28,7 +29,7 @@ const ChatHistory = () => {
             }
         </div>
     } else {
-        return <div className='flex flex-1 justify-center items-center'>
+        return <div className={cn(className, "items-center justify-center")}>
             <p className='text-muted-foreground'>You can send your messages now</p>
         </div>
     }

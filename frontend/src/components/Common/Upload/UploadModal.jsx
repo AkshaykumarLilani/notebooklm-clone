@@ -66,7 +66,7 @@ const UploadModal = () => {
         <Sheet open={isUploadSheetOpen} onOpenChange={setIsUploadSheetOpen}>
             <SheetContent
                 side="bottom"
-                className="w-full flex flex-col items-center justify-center min-h-[70vh] bg-card"
+                className="w-full flex flex-col items-center justify-center min-h-[70svh] bg-card"
                 onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}

@@ -93,7 +93,7 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
         );
     } else {
         return (
-            <div className="mt-4 w-full h-[70vh] overflow-auto">
+            <div className="mt-4 w-full h-[70svh] overflow-auto">
                 <div className="flex justify-center items-center space-x-2 mb-2">
                     {zoomControls}
                     <Dialog open={modalOpen} onOpenChange={setModalOpen}>

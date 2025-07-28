@@ -36,7 +36,7 @@ export default function Home() {
     return (
       <UploadContextProvider>
         <ChatContextProvider>
-          <div className="font-sans flex flex-col items-center justify-items-center gap-2 website-root-element-container h-screen">
+          <div className="font-sans flex flex-col items-center justify-center gap-2 website-root-element-container">
             <DesktopView className="md:flex hidden" />
             <MobileView className="flex md:hidden" />
           </div>
