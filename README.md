@@ -12,9 +12,13 @@ This project is a clone of Google's NotebookLM, designed to help users interact 
 
 ### Backend
 
-- **Vector Database:** Chroma DB
-- **Embeddings:** OpenAI `text-embedding-ada-002`
-- **Language Model:** OpenAI `gpt-3.5-turbo` (for chat completion)
+- **Framework:** Flask
+- **Vector Database:** Chroma DB for storing and retrieving document embeddings.
+- **Embeddings:** OpenAI's `text-embedding-ada-002` model to create vector representations of the text.
+- **Language Model:** OpenAI's `gpt-3.5-turbo` for generating responses.
+- **PDF Parsing:** LlamaParse for extracting text from PDF documents.
+- **Text Splitting:** Langchain's `RecursiveCharacterTextSplitter` to divide the extracted text into smaller chunks.
+- **Token Counting:** Tiktoken to count the number of tokens in the text.
 
 ## Prerequisites
 
