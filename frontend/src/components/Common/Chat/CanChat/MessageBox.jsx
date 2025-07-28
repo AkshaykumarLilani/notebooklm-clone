@@ -40,7 +40,7 @@ const MessageBox = ({ className }) => {
                     onClick={onQuerySubmit}
                     disabled={responseLoading}
                 >
-                    <SendHorizontal className='w-10 h-10' />
+                    <SendHorizontal className='w-10 h-10 text-background' />
                 </Button>
             </form>
         </div>
