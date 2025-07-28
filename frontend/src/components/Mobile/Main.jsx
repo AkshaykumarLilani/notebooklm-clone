@@ -24,7 +24,7 @@ const Main = ({ className }) => {
     return (
         <div className={cn(className, "flex flex-col flex-1 gap-3")}>
             <div className="relative flex justify-center border-b">
-                <div className="flex flex-1 justify-around">
+                <div className="flex flex-1 justify-around mt-2">
                     {tabs.map((tab, index) => (
                         <button
                             key={tab}
@@ -46,7 +46,7 @@ const Main = ({ className }) => {
                     className="flex items-stretch w-full transition-transform ease-in-out duration-200"
                     style={{ transform: `translateX(-${tabs.findIndex((val) => val === activeTabMobile) * 100}%)` }}
                 >
-                    <div className="w-full flex-shrink-0 ">
+                    <div className="w-full flex-shrink-0 flex items-center justify-center">
                         <Upload isCollapsed={false} />
                     </div>
                     <div className="w-full flex-shrink-0 ">

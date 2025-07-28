@@ -7,6 +7,7 @@ import { UploadCloud } from 'lucide-react';
 
 import { useUploadContext } from '@/lib/context/upload_context';
 import UploadedView from './UploadedView';
+import { cn } from '@/lib/utils';
 
 const NotUploadedView = ({ isCollapsed }) => {
     const { setIsUploadSheetOpen, isUploadInProgress, uploadError, userUploadedPdf, uploadData } = useUploadContext();
@@ -16,16 +17,18 @@ const NotUploadedView = ({ isCollapsed }) => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-full p-4">
-            <UploadCloud className={`h-12 w-12 text-foreground ${isCollapsed ? '' : 'mb-4'}`} />
+        <div className={cn("flex flex-col items-center justify-center h-full", "p-4")}>
             {!isCollapsed && (
-                <p className="text-lg text-foreground mb-4">
-                    No files uploaded
-                </p>
+                <>
+                    <UploadCloud className={`h-12 w-12 text-foreground ${isCollapsed ? '' : 'mb-4'}`} />
+                    <p className="text-lg text-foreground mb-4">
+                        No files uploaded
+                    </p><Button className={"text-foreground"} onClick={() => setIsUploadSheetOpen(true)} size={isCollapsed ? 'icon' : 'default'}>
+                        Upload PDF
+                    </Button>
+                </>
             )}
-            <Button onClick={() => setIsUploadSheetOpen(true)} size={isCollapsed ? 'icon' : 'default'}>
-                {isCollapsed ? <UploadCloud className="h-4 w-4" /> : 'Upload PDF'}
-            </Button>
+
         </div>
     );
 };
