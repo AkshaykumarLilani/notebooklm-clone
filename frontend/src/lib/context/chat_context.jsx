@@ -92,9 +92,28 @@ export const ChatContextProvider = ({ children }) => {
         try {
             setCurrentUserQuery("");
             setResponseLoading(true);
+            const previousConversation = [];
+            try {
+                for (const convo of chatHistory) {
+                    if (convo instanceof UserMessage) {
+                        previousConversation.push({
+                            "role": "user",
+                            "content": convo.message
+                        });
+                    } else if (convo instanceof AIMessage) {
+                        previousConversation.push({
+                            "role": "system",
+                            "content": convo.message
+                        })
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
             const response = await axios.post("/chat", {
                 pdf_id,
-                question: question
+                question: question,
+                previous_conversation: previousConversation
             });
             updateAiAnswer(response.data, ai_answer_id);
             return response.data;
@@ -104,7 +123,7 @@ export const ChatContextProvider = ({ children }) => {
         } finally {
             setResponseLoading(false);
         }
-    }, [currentUserQuery, updateAiAnswer]);
+    }, [currentUserQuery, updateAiAnswer, chatHistory]);
 
     const addUserQuery = useCallback(({ message }) => {
         try {

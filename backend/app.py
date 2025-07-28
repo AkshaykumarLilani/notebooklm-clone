@@ -25,7 +25,7 @@ def upload_pdf():
     if file.filename == '' or not file.filename.endswith('.pdf'): return jsonify({"error": "Invalid or no file selected"}), 400
 
     pdf_stream = file.read()
-    result = process_and_index_pdf(pdf_stream)
+    result = process_and_index_pdf(pdf_stream, file.filename)
 
     if result["status"] == "success":
         return jsonify({"message": result["message"], "pdf_id": result["pdf_id"]}), 200
@@ -38,11 +38,15 @@ def chat_with_pdf():
     data = request.get_json()
     user_question = data.get('question')
     pdf_id = data.get('pdf_id')
+    previous_conversation = data.get("previous_conversation", None)
     
     if not all([user_question, pdf_id]):
         return jsonify({"error": "Missing 'question' or 'pdf_id'"}), 400
     
-    result = get_chat_response(user_question, pdf_id)
+    if previous_conversation is None or not isinstance(previous_conversation, list):
+        previous_conversation = []
+    
+    result = get_chat_response(user_question, pdf_id, previous_conversation)
 
     if result["status"] == "success":
         return jsonify({

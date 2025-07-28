@@ -1,2 +1,6 @@
 CHROMA_DB_PATH = "chroma_db"
-PDF_COLLECTION_NAME = "notebooklm_clone_akshay_pdf_collection"
+
+# Open AI
+EMBEDDING_MODEL = "text-embedding-ada-002"
+MAX_TOKENS_ALLOWED_FOR_EMBEDDING = 8192
+CHAT_COMPLETION_MODEL = "gpt-3.5-turbo"
