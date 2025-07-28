@@ -2,6 +2,14 @@
 
 This project is a clone of Google's NotebookLM, designed to help users interact with their documents using AI. It consists of a Python Flask backend and a Next.js frontend.
 
+## Live Demo
+
+You can access the live, deployed version of the application here:
+
+- **Frontend:** [https://nblm.akshaylilani.com](nblm.akshaylilani.com)
+- **Backend API:** [https://notebooklm-clone-backend-h5xf.onrender.com](notebooklm-clone-backend-h5xf.onrender.com)
+
+
 ## Features
 
 - **Document Upload:** Upload PDF documents for processing.
@@ -49,11 +57,8 @@ Before you begin, ensure you have the following installed:
 
    Create a `.env` file in the `backend/` directory based on `.env.sample`:
 
-   ```env
-   OPENAI_API_KEY=your_openai_api_key_here
-   ```
-
-   - `OPENAI_API_KEY`: Your API key from OpenAI. This is crucial for the AI functionalities.
+   - `OPENAI_API_KEY`: Your API key from OpenAI.
+   - `LLAMA_CLOUD_API_KEY`: For document parsing
 5. **Run the Backend Server:**
 
    ```bash
@@ -84,7 +89,7 @@ Before you begin, ensure you have the following installed:
    NEXT_PUBLIC_API_URL="http://0.0.0.0:5000"
    ```
 
-   - `NEXT_PUBLIC_API_URL`: The URL of your backend server. Make sure this matches the `PORT` you set for the backend.
+   - `NEXT_PUBLIC_API_URL`: The URL of your backend server. Make sure this matches the port you set for the backend.
 4. **Run the Frontend Development Server:**
 
    ```bash
