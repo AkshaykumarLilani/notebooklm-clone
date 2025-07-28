@@ -17,7 +17,7 @@ const NotUploadedView = ({ isCollapsed }) => {
     }
 
     return (
-        <div className={cn("flex flex-col items-center justify-center h-full", "p-4")}>
+        <div className={cn("flex flex-1 flex-col items-center justify-center h-full", "p-4")}>
             {!isCollapsed && (
                 <>
                     <UploadCloud className={`h-12 w-12 text-foreground ${isCollapsed ? '' : 'mb-4'}`} />

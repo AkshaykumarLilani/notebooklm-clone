@@ -28,7 +28,7 @@ export function SourceCardParent({
                     {isCollapsed ? <PanelRightClose className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
                 </div>
             </CardHeader>
-            <CardContent className="px-0 py-0">
+            <CardContent className="px-0 py-0 flex">
                 <Upload  isCollapsed={isCollapsed} />
             </CardContent>
         </Card>
