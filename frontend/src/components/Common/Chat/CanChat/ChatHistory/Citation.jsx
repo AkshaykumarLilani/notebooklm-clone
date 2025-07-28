@@ -5,7 +5,7 @@ import { useUploadContext } from '@/lib/context/upload_context';
 import React from 'react'
 
 const Citation = ({ page }) => {
-    const { pageRefs, scrollToPage } = useUploadContext();
+    const { scrollToPage } = useUploadContext();
 
     const onClick = () => {
         scrollToPage(page);

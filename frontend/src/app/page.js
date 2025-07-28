@@ -2,6 +2,7 @@
 
 import DesktopView from "@/components/Desktop";
 import MobileView from "@/components/Mobile";
+import { AppContextProvider } from "@/lib/context/app_context";
 import { ChatContextProvider } from "@/lib/context/chat_context";
 import { UploadContextProvider } from "@/lib/context/upload_context";
 import axios from "axios";
@@ -34,14 +35,16 @@ export default function Home() {
     )
   } else if (isBaseUrlSet === true) {
     return (
-      <UploadContextProvider>
-        <ChatContextProvider>
-          <div className="font-sans flex flex-col items-center justify-center gap-2 website-root-element-container">
-            <DesktopView className="md:flex hidden" />
-            <MobileView className="flex md:hidden" />
-          </div>
-        </ChatContextProvider>
-      </UploadContextProvider>
+      <AppContextProvider>
+        <UploadContextProvider>
+          <ChatContextProvider>
+            <div className="font-sans flex flex-col items-center justify-center gap-2 website-root-element-container">
+              <DesktopView className="md:flex hidden" />
+              <MobileView className="flex md:hidden" />
+            </div>
+          </ChatContextProvider>
+        </UploadContextProvider>
+      </AppContextProvider>
     );
   } else {
     return (

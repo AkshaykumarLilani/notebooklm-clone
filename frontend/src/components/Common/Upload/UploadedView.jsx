@@ -43,7 +43,7 @@ const UploadedView = ({ isCollapsed }) => {
     if (uploadData || userUploadedPdf) {
         return (
             <>
-                <div className="w-full flex flex-col items-stretch">
+                <div className="w-100 flex flex-col items-stretch">
                     <div className="flex gap-2 items-center justify-between bg-card px-3 py-3 rounded-lg border-1">
                         <div className='flex gap-2 items-center'>
                             <FileText className={`h-6 w-6 text-foreground ${isCollapsed ? 'mx-auto' : ''}`} />

@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -10,12 +10,12 @@ import dynamic from 'next/dynamic';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { useUploadContext } from '@/lib/context/upload_context';
+import { cn } from '@/lib/utils';
 
 const Document = dynamic(() => import('react-pdf').then((mod) => mod.Document), { ssr: false });
 const Page = dynamic(() => import('react-pdf').then((mod) => mod.Page), { ssr: false });
 
 const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
-    const {pageRefs} = useUploadContext();
 
     const [numPages, setNumPages] = useState(null);
     const [scale, setScale] = useState(1.0);
@@ -32,11 +32,11 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
     }
 
     const pdfContent = (
-        <div className="flex-grow overflow-auto">
+        <div className="flex-grow overflow-auto flex flex-col justify-start items-center">
             <Document
                 file={userUploadedPdf}
                 onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-                className="flex flex-col justify-center w-100"
+                className={cn("flex flex-col justify-center gap-2", { "w-100": isModal })}
             >
                 {Array.apply(null, Array(numPages))
                     .map((x, i) => i + 1)
@@ -46,9 +46,8 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
                             pageNumber={page}
                             renderTextLayer={false}
                             renderAnnotationLayer={false}
-                            className="mb-4"
+                            className=""
                             scale={scale}
-                            inputRef={(ref) => (ref && pageRefs.current.push(ref))}
                         />
                     ))}
             </Document>
@@ -84,7 +83,7 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-full h-full flex flex-col">
-                    <div className="flex justify-center items-center space-x-2 mb-2">
+                    <div className="flex justify-center items-center space-x-2 mb-2 p-2">
                         {zoomControls}
                     </div>
                     {pdfContent}
@@ -93,25 +92,30 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
         );
     } else {
         return (
-            <div className="mt-4 w-full h-[70svh] overflow-auto">
-                <div className="flex justify-center items-center space-x-2 mb-2">
-                    {zoomControls}
-                    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+            <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+                <div className="mt-4 flex flex-col gap-2 justify-center items-center mb-2">
+                    <div className="flex justify-center items-center space-x-2 mb-2">
+                        {zoomControls}
                         <DialogTrigger asChild>
                             <Button variant="outline" size="icon">
                                 <Maximize className="h-4 w-4" />
                             </Button>
                         </DialogTrigger>
+                    </div>
+                    <div className="w-full h-[60svh] overflow-auto p-2 md:p-0">
+                        <DialogTitle className="hidden">
+                            Pdf Viewer
+                        </DialogTitle>
                         <DialogContent className="min-w-[90vw] h-[90vh] flex flex-col">
                             <div className="flex justify-center items-center space-x-2 mb-2">
                                 {zoomControls}
                             </div>
                             {pdfContent}
                         </DialogContent>
-                    </Dialog>
+                        {!modalOpen && pdfContent}
+                    </div>
                 </div>
-                {!modalOpen && pdfContent}
-            </div>
+            </Dialog>
         );
     }
 };

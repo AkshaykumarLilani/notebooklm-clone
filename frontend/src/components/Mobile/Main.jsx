@@ -4,23 +4,21 @@ import { cn } from '@/lib/utils'
 import React, { useState, useRef, useEffect } from 'react'
 import Chat from '../Common/Chat';
 import Upload from '../Common/Upload';
-
-const tabs = ['Sources', 'Chat'];
+import { tabs, useAppContext } from '@/lib/context/app_context';
 
 const Main = ({ className }) => {
-    const [activeTab, setActiveTab] = useState(0);
-    const tabRefs = [useRef(null), useRef(null)];
-    const [sliderStyle, setSliderStyle] = useState({});
+
+    const { activeTabMobile ,setActiveTabMobile, tabRefs, sliderStyle, setSliderStyle} = useAppContext();
 
     useEffect(() => {
-        if (tabRefs[activeTab].current) {
-            const { offsetLeft, clientWidth } = tabRefs[activeTab].current;
+        if (tabRefs[activeTabMobile].current) {
+            const { offsetLeft, clientWidth } = tabRefs[activeTabMobile].current;
             setSliderStyle({
                 left: offsetLeft,
                 width: `calc(100% - ${100/tabs.length}%)`,
             });
         }
-    }, [activeTab]);
+    }, [activeTabMobile]);
 
 
     return (
@@ -29,24 +27,24 @@ const Main = ({ className }) => {
                 <div className="flex flex-1 justify-around">
                     {tabs.map((tab, index) => (
                         <button
-                            key={index}
-                            ref={tabRefs[index]}
-                            className={`px-4 py-2 text-lg font-medium hover:bg-muted flex-1 ${activeTab === index ? 'text-foreground' : 'text-muted-foreground'}`}
-                            onClick={() => setActiveTab(index)}
+                            key={tab}
+                            ref={tabRefs[tab]}
+                            className={`px-4 py-2 text-lg font-medium hover:bg-muted flex-1 ${activeTabMobile === tab ? 'text-foreground' : 'text-muted-foreground'}`}
+                            onClick={() => setActiveTabMobile(tab)}
                         >
                             {tab}
                         </button>
                     ))}
                 </div>
                 <div
-                    className="absolute bottom-0 h-0.5 bg-foreground transition-all ease-in-out duration-500"
+                    className="absolute bottom-0 h-0.5 bg-foreground transition-all ease-in-out duration-200"
                     style={sliderStyle}
                 />
             </div>
             <div className="flex-1 overflow-hidden flex items-stretch">
                 <div
-                    className="flex items-stretch w-full transition-transform ease-in-out duration-500"
-                    style={{ transform: `translateX(-${activeTab * 100}%)` }}
+                    className="flex items-stretch w-full transition-transform ease-in-out duration-200"
+                    style={{ transform: `translateX(-${tabs.findIndex((val) => val === activeTabMobile) * 100}%)` }}
                 >
                     <div className="w-full flex-shrink-0 ">
                         <Upload isCollapsed={false} />
