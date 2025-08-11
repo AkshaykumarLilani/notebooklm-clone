@@ -18,12 +18,12 @@ const Main = ({ className }) => {
   }
 
   return (
-    <div className={cn(className, "flex flex-1 gap-3 justify-center items-stretch")}>
+    <div className={cn(className, "flex flex-1 gap-3 justify-start items-stretch")}>
       <SourceCardParent 
         titleClassNames={COMMON_TITLE_CLASSES} 
         className={cn(
           COMMON_CONTAINER_CLASSES, 
-          { "flex-4": !isSourceCollapsed },
+          { "flex-4 max-w-[40vw]": !isSourceCollapsed },
         )}
         isCollapsed={isSourceCollapsed}
         onToggleCollapse={handleSourceCollapseToggle}
@@ -32,7 +32,9 @@ const Main = ({ className }) => {
         titleClassNames={COMMON_TITLE_CLASSES} 
         className={cn(
           COMMON_CONTAINER_CLASSES, 
-          "flex-7"
+          "flex-7",
+          {"max-w-[95vw]": isSourceCollapsed},
+          {"max-w-[57vw]": !isSourceCollapsed},
         )} 
       />
       <UploadModal />

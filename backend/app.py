@@ -28,7 +28,7 @@ def upload_pdf():
     result = process_and_index_pdf(pdf_stream, file.filename)
 
     if result["status"] == "success":
-        return jsonify({"message": result["message"], "pdf_id": result["pdf_id"]}), 200
+        return jsonify({"message": result["message"], "pdf_id": result["pdf_id"], "relevant_questions": result['relevant_questions'], "pdf_file": stored_filename}), 200
     else:
         return jsonify({"error": result["message"]}), 500
 

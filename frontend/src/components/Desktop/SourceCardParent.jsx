@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils"
 import { Card, CardContent, CardHeader } from "../ui/card"
 import { PanelLeftClose, PanelRightClose } from "lucide-react"
 import Upload from "../Common/Upload";
+import { useUploadContext } from "@/lib/context/upload_context";
+import DeleteModal from "../Common/Upload/DeleteModal";
 
 export function SourceCardParent({
     className,
@@ -11,6 +13,12 @@ export function SourceCardParent({
     isCollapsed,
     onToggleCollapse
 }) {
+
+    const {
+        uploadData,
+        userUploadedPdf,
+    } = useUploadContext();
+
     return (
         <Card className={cn(
             className,
@@ -23,13 +31,20 @@ export function SourceCardParent({
                 "flex items-center",
                 isCollapsed ? "justify-center" : "justify-between"
             )}>
-                {!isCollapsed && <span>Sources</span>}
-                <div onClick={onToggleCollapse} className="cursor-pointer">
-                    {isCollapsed ? <PanelRightClose className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
+                {!isCollapsed && <div className="text-sm font-medium max-w-[70%] truncate">
+                    {userUploadedPdf?.name ? userUploadedPdf?.name : 'Source'}
+                </div>}
+                <div className="flex items-center gap-2">
+                    {
+                        ((uploadData || userUploadedPdf) && !isCollapsed) ? <DeleteModal /> : <></>
+                    }
+                    <div onClick={onToggleCollapse} className="cursor-pointer">
+                        {isCollapsed ? <PanelRightClose className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
+                    </div>
                 </div>
             </CardHeader>
             <CardContent className="px-0 py-0 flex">
-                <Upload  isCollapsed={isCollapsed} />
+                <Upload isCollapsed={isCollapsed} />
             </CardContent>
         </Card>
     )

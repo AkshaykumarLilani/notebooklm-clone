@@ -20,6 +20,7 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
     const [numPages, setNumPages] = useState(null);
     const [scale, setScale] = useState(1.0);
     const [modalOpen, setModalOpen] = useState(false);
+    const containerRef = useRef(null);
 
     useLayoutEffect(() => {
         import('react-pdf').then(({ pdfjs }) => {
@@ -32,11 +33,25 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
     }
 
     const pdfContent = (
-        <div className="flex-grow overflow-auto flex flex-col justify-start items-center">
+        <div ref={containerRef} className="flex-grow overflow-auto flex flex-col justify-start items-center bg-secondary">
             <Document
                 file={userUploadedPdf}
-                onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+                onLoadSuccess={(pdf) => {
+                    console.log({pdf})
+                    if (containerRef.current && pdf) {
+                        pdf.getPage(1).then(page => {
+                            const viewport = page.getViewport({ scale: 1 });
+                            const pdfWidth = viewport.width;
+                            const containerWidth = containerRef.current.offsetWidth-20;
+                            const calculatedScale = containerWidth / pdfWidth;
+                            console.log({viewport, pdfWidth, containerWidth, calculatedScale})
+                            setScale(calculatedScale);
+                            setNumPages(pdf.numPages);
+                        });
+                    }
+                }}
                 className={cn("flex flex-col justify-center gap-2", { "w-100": isModal })}
+                scale={scale}
             >
                 {Array.apply(null, Array(numPages))
                     .map((x, i) => i + 1)
@@ -47,7 +62,6 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
                             renderTextLayer={false}
                             renderAnnotationLayer={false}
                             className=""
-                            scale={scale}
                         />
                     ))}
             </Document>
@@ -93,7 +107,7 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
     } else {
         return (
             <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-                <div className="mt-4 flex flex-col gap-2 justify-center items-center mb-2">
+                <div className="mt-0 lg:mt-1 flex flex-1 flex-col gap-2 justify-center items-center mb-2">
                     <div className="flex justify-center items-center space-x-2 mb-2">
                         {zoomControls}
                         <DialogTrigger asChild>
@@ -102,7 +116,7 @@ const PdfViewerModal = ({ userUploadedPdf, isModal = true }) => {
                             </Button>
                         </DialogTrigger>
                     </div>
-                    <div className="w-full h-[60svh] overflow-auto p-2 md:p-0">
+                    <div className="w-full h-[70svh] overflow-auto p-2 lg:p-0">
                         <DialogTitle className="hidden">
                             Pdf Viewer
                         </DialogTitle>

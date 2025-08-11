@@ -14,6 +14,7 @@ export const ChatContextProvider = ({ children }) => {
     const { uploadData } = useUploadContext();
 
     const pdf_id = useMemo(() => uploadData?.pdf_id, [uploadData]);
+    const relevant_questions = useMemo(() => uploadData?.relevant_questions, [uploadData])
 
     const [chatHistory, setChatHistory] = useState([]);
     const [currentUserQuery, setCurrentUserQuery] = useState("");
@@ -151,7 +152,8 @@ export const ChatContextProvider = ({ children }) => {
         responseLoading,
         sendUserQuery,
         updateAiAnswer,
-        resetChat
+        resetChat,
+        relevant_questions
     }}>
         {children}
     </ChatContext.Provider>

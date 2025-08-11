@@ -3,8 +3,9 @@ from llama_cloud_services import LlamaParse
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import openai
 import chromadb
-import uuid
+# import uuid
 from services.constants import CHROMA_DB_PATH, EMBEDDING_MODEL, CHAT_COMPLETION_MODEL, MAX_TOKENS_ALLOWED_FOR_EMBEDDING
+from typing import List, Dict
 
 def num_tokens_from_string(string: str) -> int:
     """Returns the number of tokens in a text string."""
@@ -12,13 +13,11 @@ def num_tokens_from_string(string: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
-def process_and_index_pdf(pdf_stream, filename):
+def process_and_index_pdf(pdf_stream, filename, pdf_id):
     """
     Reads a PDF from a byte stream, processes it, and indexes it in ChromaDB.
     """
     try:
-        pdf_id = str(uuid.uuid4())
-
         chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
         collection = chroma_client.get_or_create_collection(name=pdf_id)
 
@@ -70,11 +69,52 @@ def process_and_index_pdf(pdf_stream, filename):
         collection.add(
             embeddings=embeddings, documents=chunk_texts, metadatas=metadatas, ids=ids
         )
+        
+        # Get a few relevant questions
+        relevant_questions: List[str] = []
+        try:
+            # Choose the first 12 chunks as context
+            top_chunks = chunks[:12]
+            # Prepare system and user prompts
+            system_prompt = (
+                "You are an AI assistant that generates user-friendly questions based on document excerpts."
+            )
+            excerpts = "\n\n".join(chunk['text'] for chunk in top_chunks)
+            user_prompt = f"""
+    **Context Excerpts:**
+    ---
+    {excerpts}
+
+    **Task:**
+    Based on the above excerpts from the PDF, generate 5-7 clear, open-ended questions that a reader might ask to explore the document's content further.
+    """
+            # Call the chat completion API
+            response = openai.chat.completions.create(
+                model=CHAT_COMPLETION_MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ]
+            )
+            # Extract and parse the assistant's reply into a list of questions
+            reply = response.choices[0].message.content
+            for line in reply.splitlines():
+                text = line.strip()
+                if not text:
+                    continue
+                # Remove bullets or numbering
+                question = text.lstrip("-•0123456789. ")
+                relevant_questions.append(question)
+        except Exception as e:
+            print(f"Error generating relevant questions: {e}")
+            # Fallback to empty list (or defaults)
+            relevant_questions = []
 
         return {
             "status": "success",
             "message": f"Successfully indexed {len(chunks)} chunks.",
             "pdf_id": pdf_id,
+            "relevant_questions": relevant_questions
         }
     except Exception as e:
         print(f"An error occurred in upload_service.py: {e}")

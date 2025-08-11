@@ -4,18 +4,24 @@ import { cn } from '@/lib/utils'
 import React, { useState, useRef, useEffect } from 'react'
 import Chat from '../Common/Chat';
 import Upload from '../Common/Upload';
-import { tabs, useAppContext } from '@/lib/context/app_context';
+import { TABS, tabs, useAppContext } from '@/lib/context/app_context';
+import DeleteModal from '../Common/Upload/DeleteModal';
+import { useUploadContext } from '@/lib/context/upload_context';
 
 const Main = ({ className }) => {
 
-    const { activeTabMobile ,setActiveTabMobile, tabRefs, sliderStyle, setSliderStyle} = useAppContext();
+    const { activeTabMobile, setActiveTabMobile, tabRefs, sliderStyle, setSliderStyle } = useAppContext();
+
+    const {
+        userUploadedPdf
+    } = useUploadContext();
 
     useEffect(() => {
         if (tabRefs[activeTabMobile].current) {
             const { offsetLeft, clientWidth } = tabRefs[activeTabMobile].current;
             setSliderStyle({
                 left: offsetLeft,
-                width: `calc(100% - ${100/tabs.length}%)`,
+                width: `calc(100% - ${100 / tabs.length}%)`,
             });
         }
     }, [activeTabMobile]);
@@ -26,14 +32,19 @@ const Main = ({ className }) => {
             <div className="relative flex justify-center border-b">
                 <div className="flex flex-1 justify-around mt-2">
                     {tabs.map((tab, index) => (
-                        <button
+                        <div
                             key={tab}
                             ref={tabRefs[tab]}
-                            className={`px-4 py-2 text-lg font-medium hover:bg-muted flex-1 ${activeTabMobile === tab ? 'text-foreground' : 'text-muted-foreground'}`}
+                            className={`px-4 py-2 text-lg font-medium hover:bg-muted flex-1 max-w-[50%] flex items-center justify-center\ ${activeTabMobile === tab ? 'text-foreground' : 'text-muted-foreground'}`}
                             onClick={() => setActiveTabMobile(tab)}
                         >
-                            {tab}
-                        </button>
+                            {
+                                (tab === TABS.SOURCES && userUploadedPdf?.name) ? <div className='w-full flex gap-2 items-center justify-between'>
+                                    <div className='max-w-[70%] truncate'>{userUploadedPdf?.name}</div>
+                                    <DeleteModal />
+                                </div> : <>{`${tab}`}</>
+                            }
+                        </div>
                     ))}
                 </div>
                 <div

@@ -30,7 +30,7 @@ export const UploadContextProvider = ({ children }) => {
 
         if (activeTabMobile !== TABS.SOURCES) {
             setActiveTabMobile(TABS.SOURCES);
-            setTimeout(scrollNow, 300);
+            setTimeout(scrollNow, 500);
         } else {
             scrollNow(false);
         }

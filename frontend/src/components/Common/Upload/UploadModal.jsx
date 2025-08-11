@@ -75,7 +75,7 @@ const UploadModal = () => {
                     e.preventDefault();
                 }}
             >
-                <SheetHeader className="min-w-[90vw] md:min-w-[50vw] px-0">
+                <SheetHeader className="min-w-[90vw] lg:min-w-[50vw] px-0">
                     <SheetTitle>Upload PDF</SheetTitle>
                     <SheetDescription>
                         Drag and drop your PDF file here or click to browse.
@@ -83,7 +83,7 @@ const UploadModal = () => {
                 </SheetHeader>
                 {uploadError && <p className="text-destructive mt-2 text-sm max-w-[50vw]">{uploadError?.error || uploadError.message}</p>}
                 <div
-                    className={`relative border-2 border-dashed rounded-lg p-10 text-center min-w-[90vw] md:min-w-[50vw] px-4 ${isDragging ? "border-primary" : "border-foreground"
+                    className={`relative border-2 border-dashed rounded-lg p-10 text-center min-w-[90vw] lg:min-w-[50vw] px-4 ${isDragging ? "border-primary" : "border-foreground"
                         }`}
                 >
                     {!isUploadInProgress ? <>
