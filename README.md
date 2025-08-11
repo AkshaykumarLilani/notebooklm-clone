@@ -9,7 +9,6 @@ You can access the live, deployed version of the application here:
 - **Frontend:** [https://nblm.akshaylilani.com](nblm.akshaylilani.com)
 - **Backend API:** [https://notebooklm-clone-backend-h5xf.onrender.com](notebooklm-clone-backend-h5xf.onrender.com)
 
-
 ## Features
 
 - **Document Upload:** Upload PDF documents for processing.
@@ -23,7 +22,7 @@ You can access the live, deployed version of the application here:
 - **Framework:** Flask
 - **Vector Database:** Chroma DB for storing and retrieving document embeddings.
 - **Embeddings:** OpenAI's `text-embedding-ada-002` model to create vector representations of the text.
-- **Language Model:** OpenAI's `gpt-3.5-turbo` for generating responses.
+- **Language Model:** OpenAI's o3 for generating responses.
 - **PDF Parsing:** LlamaParse for extracting text from PDF documents.
 - **Text Splitting:** Langchain's `RecursiveCharacterTextSplitter` to divide the extracted text into smaller chunks.
 - **Token Counting:** Tiktoken to count the number of tokens in the text.
