@@ -3,23 +3,27 @@
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, ToasterProps } from "sonner"
 
-const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+type SonnerTheme = NonNullable<ToasterProps["theme"]>
 
-  return (
-    <Sonner
-      theme={theme as ToasterProps["theme"]}
-      className="toaster group"
-      style={
-        {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-        } as React.CSSProperties
-      }
-      {...props}
-    />
-  )
+const Toaster = ({ ...props }: ToasterProps) => {
+    const { theme } = useTheme()
+
+    const themeProp = theme === "light" || theme === "dark" || theme === "system" ? { theme: theme as SonnerTheme } : {}
+
+    return (
+        <Sonner
+            {...themeProp}
+            className="toaster group"
+            style={
+                {
+                    "--normal-bg": "var(--popover)",
+                    "--normal-text": "var(--popover-foreground)",
+                    "--normal-border": "var(--border)",
+                } as React.CSSProperties
+            }
+            {...props}
+        />
+    )
 }
 
 export { Toaster }

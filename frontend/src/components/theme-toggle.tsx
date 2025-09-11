@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import * as React from "react"
 import { Hourglass, Moon, Sun } from "lucide-react"
@@ -6,12 +6,16 @@ import { useTheme } from "next-themes"
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group"
 
 export function ModeToggle() {
-    const { theme, setTheme } = useTheme();
-    
-    React.useEffect(()=>{
-        setTheme("system");
+    const { theme, setTheme } = useTheme()
+
+    React.useEffect(() => {
+        setTheme("system")
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [])
+
+    if (!theme) {
+        return <></>
+    }
 
     return (
         <ToggleGroup variant="outline" type="single" value={theme}>

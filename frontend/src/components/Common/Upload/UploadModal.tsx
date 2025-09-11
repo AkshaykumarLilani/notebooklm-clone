@@ -49,7 +49,7 @@ const UploadModal = () => {
         event.stopPropagation()
         setIsDragging(false)
         const files = event?.dataTransfer?.files
-        if (files && files.length > 0) {
+        if (files && files.length > 0 && files[0]) {
             handleFileSelect(files[0])
         }
     }
@@ -57,7 +57,7 @@ const UploadModal = () => {
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         const files = e.target.files
-        if (files && files.length > 0) {
+        if (files && files.length > 0 && files[0]) {
             handleFileSelect(files[0])
         }
     }

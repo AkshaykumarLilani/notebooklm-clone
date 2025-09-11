@@ -31,14 +31,14 @@ export const ChatContextProvider: ChatContextProviderComponent = ({ children }) 
             let newAiAnswerObjectToReplaceWith = null
             if (dataToUpdateWith instanceof AxiosError) {
                 if (dataToUpdateWith?.response?.data?.error) {
-                    newAiAnswerObjectToReplaceWith = new AIMessage(null, null, null, null, false, dataToUpdateWith.response.data.error)
+                    newAiAnswerObjectToReplaceWith = new AIMessage(null, null, [], null, false, dataToUpdateWith.response.data.error)
                 } else if (dataToUpdateWith?.message) {
-                    newAiAnswerObjectToReplaceWith = new AIMessage(null, null, null, null, false, dataToUpdateWith.message)
+                    newAiAnswerObjectToReplaceWith = new AIMessage(null, null, [], null, false, dataToUpdateWith.message)
                 } else {
-                    newAiAnswerObjectToReplaceWith = new AIMessage(null, null, null, null, false, "Something went wrong")
+                    newAiAnswerObjectToReplaceWith = new AIMessage(null, null, [], null, false, "Something went wrong")
                 }
             } else if (dataToUpdateWith instanceof Error) {
-                newAiAnswerObjectToReplaceWith = new AIMessage(null, null, null, null, false, `${dataToUpdateWith}`)
+                newAiAnswerObjectToReplaceWith = new AIMessage(null, null, [], null, false, `${dataToUpdateWith}`)
             } else {
                 newAiAnswerObjectToReplaceWith = new AIMessage(null, dataToUpdateWith.answer, dataToUpdateWith.citations, dataToUpdateWith.sources, false, null)
             }
