@@ -1,0 +1,61 @@
+{
+    "compilerOptions": {
+        // Modern JS output and browser libs
+        "target": "ES2020",
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        // Let the bundler (Vite/Next) handle ESM resolution
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "jsx": "react-jsx",
+        // --- Strictness (bug-prevention) ---
+        "strict": true, // umbrella for strictness
+        "noImplicitAny": true, // no accidental any
+        "strictNullChecks": true, // null/undefined are explicit
+        "exactOptionalPropertyTypes": true, // optional means possibly-undefined
+        "noUncheckedIndexedAccess": true, // obj[key] returns T | undefined
+        "useUnknownInCatchVariables": true, // catch (e) is unknown, force narrowing
+        // --- Speed & DX ---
+        "skipLibCheck": true, // faster builds, ok for apps
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true, // required for transpile-only tools
+        "incremental": true, // cache for faster rebuilds
+        // --- Imports / Paths ---
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        },
+        // --- Interop / Assets ---
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        // --- Emission ---
+        "declaration": false, // apps don’t need d.ts
+        "sourceMap": true,
+        "noEmit": true, // bundler emits; TS only checks
+        "allowJs": false, // allow tsc to allow js files
+        "checkJs": false, // allow tsc to typecheck js files
+        "noFallthroughCasesInSwitch": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ]
+    },
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "next-env.d.ts",
+        ".next/types/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        ".next",
+        "dist"
+    ]
+}
